@@ -11,6 +11,11 @@ function PlayerAnimationState:init(player, gravity)
     self.player.currentAnimation = self.animation
 end
 
+function PlayerAnimationState:enter(params)
+    self.player.score = params.score
+    width = params.width
+end 
+
 function PlayerAnimationState:update(dt)
     self.player.currentAnimation:update(dt)
 
@@ -42,7 +47,12 @@ function PlayerAnimationState:update(dt)
         self.player.win = true
 
         Timer.after(3, function () 
-            gStateMachine:change('play') 
+            gStateMachine:change('play',
+            {
+                score = self.player.score,
+                width = width 
+            }
+            ) 
         end)
     end
 

@@ -265,7 +265,7 @@ function spawnGoal(objects, gameWidth)
         triggerable = true,
         solid = false,
         hit = false,
-        -- CS50: trigger callback (no consume / no collide)
+        -- MARIO UPDATE: COLLISION WITH FLAG
         onTrigger = function(obj, player)
             if not obj.hit then
                 for k, object in pairs(objects) do
@@ -276,7 +276,11 @@ function spawnGoal(objects, gameWidth)
                         Timer.tween(1, {
                             [object] = {y = 5 * TILE_SIZE}
                         }):finish(function()  
-                            player:changeState('animation')
+                            player:changeState('animation', 
+                            {
+                                score = player.score,
+                                width = gameWidth + 20
+                            })
                         end)
                     end
                 end

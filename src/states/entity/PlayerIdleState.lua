@@ -13,7 +13,7 @@ function PlayerIdleState:init(player)
 
     self.animation = Animation {
         frames = {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 4, 5, 4, 5, 4, 5, 4, 3, 2},
-        interval = .2
+        interval = .15
     }
 
     self.player.currentAnimation = self.animation
