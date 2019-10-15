@@ -15,6 +15,8 @@ function Entity:init(def)
     self.x = def.x
     self.y = def.y 
 
+    self.dx = def.dx
+    
     self.texture = def.texture
     self.stateMachine = def.stateMachine
 end

@@ -19,11 +19,19 @@ function MonsterMovingState:init(fireHero, monster)
     }
     self.monster.currentAnimation = self.animation
 
-    gSounds['monster_hurt']:play()
-
 end
 
 function MonsterMovingState:update(dt)
     self.monster.currentAnimation:update(dt)
 
+    self.monster.x = self.monster.x - 10 * dt
+
+    if attacks == true then
+        
+        if self.monster.x > 350 then
+            self.monster.x = self.monster.x + 20
+        elseif self.monster.x < 350 then
+            self.monster.x = self.monster.x + 70
+        end
+    end
 end

@@ -15,6 +15,7 @@ require 'src/states/game/StartState'
 require 'src/states/game/HighScoreState'
 require 'src/states/game/QuitState'
 require 'src/states/game/BeginState'
+require 'src/states/game/GameOverState'
 
 -- ENTITY STATES
 require 'src/states/entity/FireHeroIdleState'
@@ -22,12 +23,17 @@ require 'src/states/entity/FireHeroIdleState'
 -- MONSTER STATES
 require 'src/states/entity/monster/MonsterMovingState'
 
+-- ATTACK STATES
+require 'src/states/entity/attack/FireWaveState'
+require 'src/states/entity/attack/NoAttackState'
+
 -- GENERAL
 require 'src/Animation'
 require 'src/Entity'
 require 'src/GameLevel'
 require 'src/FireHero'
 require 'src/Monster'
+require 'src/Attack'
 
 gSounds = {
     ['music'] = love.audio.newSource('sounds/music.mp3'),
@@ -35,7 +41,9 @@ gSounds = {
     ['fire'] = love.audio.newSource('sounds/fire.mp3'),
     ['back'] = love.audio.newSource('sounds/back.wav'),
     ['select'] = love.audio.newSource('sounds/select.mp3'),
-    ['monster_hurt'] = love.audio.newSource('sounds/monster_hurt.mp3')
+    ['monster_hurt'] = love.audio.newSource('sounds/monster_hurt.mp3'),
+    ['fireWhoosh'] = love.audio.newSource('sounds/fireWhoosh.mp3'),
+    ['fireBall'] = love.audio.newSource('sounds/fireBall.mp3')
 
 }
 
@@ -45,11 +53,13 @@ gTextures = {
     ['frame'] = love.graphics.newImage('graphics/frame.png'),
     ['frame2'] = love.graphics.newImage('graphics/frame2.png'),
     ['eye-monster'] = love.graphics.newImage('graphics/eye-monster.png'),
+    ['fire_wave'] = love.graphics.newImage('graphics/fire_wave.png'),
 }
 
 gFrames = {
     ['fire_hero'] = GenerateQuads(gTextures['fire_hero'], 112, 160),
     ['eye-monster'] = GenerateQuads(gTextures['eye-monster'], 144, 128),
+    ['fire_wave'] = GenerateQuads(gTextures['fire_wave'], 304, 192),
 }
 
 -- these need to be added after gFrames is initialized because they refer to gFrames from within

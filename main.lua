@@ -18,15 +18,25 @@ function love.load()
         ['play'] = function() return PlayState() end,
         ['highscore'] = function()return HighScoreState() end,
         ['begin'] = function()return BeginState() end,
+        ['gameOver'] = function()return GameOverState() end,
         ['quit'] = function()return QuitState() end
+
 
     }
 
     gSounds['music']:setLooping(true)
     gSounds['music']:play()
 
+    initializeDictionary()
+    chooseWord()
     
     gStateMachine:change('start')
+
+    
+    Timer.every(0.5, function()
+        cursor = not cursor
+    end)
+
 
     love.keyboard.keysPressed = {}
 end
@@ -40,6 +50,35 @@ end
 function love.keypressed(key)
 
     love.keyboard.keysPressed[key] = true
+
+    for i = 1, #ALPHABET do
+        local char = ALPHABET:sub(i, i)
+
+        -- if we have pressed this key of the alphabet...
+        if key == char then
+
+            -- if we have typed the current correct letter...
+            if char == fullString:sub(currentCharIndex, currentCharIndex) then
+
+                -- successfully typed full word
+                if currentCharIndex == fullString:len() then
+                   score = score + fullString:len()
+                    chooseWord()
+                    attacks = true
+                    gSounds['monster_hurt']:play()
+                else
+                    currentCharIndex = currentCharIndex + 1
+                    
+                end
+            else
+
+                -- else if we typed the wrong letter...
+                currentCharIndex = 1
+                gSounds['back']:play()
+            end
+        end
+    end
+
 
 end
 
@@ -72,17 +111,3 @@ function love.draw()
 end
 
 
-function initializeDictionary()
-
-    for line in love.filesystem.lines('large.txt') do
-        table.insert(words, line) 
-    end
-
-end
-
-function chooseWord()
-
-    currentCharIndex = 1
-    fullString = words[math.random(#words)]
-    
-end
