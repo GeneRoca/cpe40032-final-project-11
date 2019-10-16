@@ -19,6 +19,15 @@ function love.load()
         ['highscore'] = function()return HighScoreState() end,
         ['begin'] = function()return BeginState() end,
         ['gameOver'] = function()return GameOverState() end,
+        ['continue'] = function()return ContinueState() end,
+        ['story'] = function()return StoryState() end,
+        ['story1'] = function()return Story1State() end,
+        ['story2'] = function()return Story2State() end,
+        ['story3'] = function()return Story3State() end,
+        ['story4'] = function()return Story4State() end,
+        ['story5'] = function()return Story5State() end,
+        ['confirm'] = function()return ConfirmState() end,
+        ['difficulty'] = function()return DifficultyState() end,
         ['quit'] = function()return QuitState() end
 
 
@@ -30,13 +39,16 @@ function love.load()
     initializeDictionary()
     chooseWord()
     
-    gStateMachine:change('start')
+    gStateMachine:change('story')
 
     
     Timer.every(0.5, function()
         cursor = not cursor
     end)
 
+    Timer.every(5, function()
+        tips = not tips
+    end)
 
     love.keyboard.keysPressed = {}
 end
@@ -62,7 +74,7 @@ function love.keypressed(key)
 
                 -- successfully typed full word
                 if currentCharIndex == fullString:len() then
-                   score = score + fullString:len()
+                   letters = letters + fullString:len()
                     chooseWord()
                     attacks = true
                     gSounds['monster_hurt']:play()

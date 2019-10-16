@@ -16,12 +16,22 @@ require 'src/states/game/HighScoreState'
 require 'src/states/game/QuitState'
 require 'src/states/game/BeginState'
 require 'src/states/game/GameOverState'
+require 'src/states/game/ContinueState'
+require 'src/states/game/StoryState'
+require 'src/states/game/Story1State'
+require 'src/states/game/Story2State'
+require 'src/states/game/Story3State'
+require 'src/states/game/Story4State'
+require 'src/states/game/Story5State'
+require 'src/states/game/DifficultyState'
+require 'src/states/game/ConfirmState'
 
 -- ENTITY STATES
 require 'src/states/entity/FireHeroIdleState'
 
 -- MONSTER STATES
 require 'src/states/entity/monster/MonsterMovingState'
+require 'src/states/entity/monster/MonsterHurtState'
 
 -- ATTACK STATES
 require 'src/states/entity/attack/FireWaveState'

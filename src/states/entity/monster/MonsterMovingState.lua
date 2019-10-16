@@ -1,13 +1,3 @@
---[[
-    GD50
-    Super Mario Bros. Remake
-
-    -- MonsterMovingState Class --
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-]]
-
 MonsterMovingState = Class{__includes = BaseState}
 
 function MonsterMovingState:init(fireHero, monster)
@@ -18,20 +8,35 @@ function MonsterMovingState:init(fireHero, monster)
         interval = 0.15
     }
     self.monster.currentAnimation = self.animation
+    
+    Timer.every(2, function()
 
+        self.speed = self.speed + self.difficulty
+    
+    end)
 end
 
-function MonsterMovingState:update(dt)
-    self.monster.currentAnimation:update(dt)
+function MonsterMovingState:enter(params, difficulty, speed)
+    self.difficulty = params.difficulty
+    self.speed = params.speed
+end
 
-    self.monster.x = self.monster.x - 10 * dt
+
+function MonsterMovingState:update(dt)
+    self.monster.currentAnimation:update(dt)    
+
+    self.monster.x = self.monster.x - self.speed * dt
 
     if attacks == true then
         
-        if self.monster.x > 350 then
-            self.monster.x = self.monster.x + 20
-        elseif self.monster.x < 350 then
-            self.monster.x = self.monster.x + 70
-        end
+        
+        self.monster:changeState('hurt', {
+            difficulty = self.difficulty,
+            speed = self.speed
+        })
+        
     end
+
+    
+
 end

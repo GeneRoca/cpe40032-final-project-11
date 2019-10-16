@@ -1,14 +1,27 @@
 GameOverState = Class{__includes = BaseState}
 
 function GameOverState:init()
+    self.transitionAlpha = 255
+    self.transitionAlphas = 0
 
+    highlighted = 1
+
+    chooseWord()
 end
 
-function GameOverState:enter(params)
-    
+function GameOverState:enter(params, difficulty, speed)
+    self.difficulty = params.difficulty
+    self.speed = params.speed
+    Timer.tween(0.5, {
+        [self] = {transitionAlpha = 0}
+    })
+    :finish(function()
+    end)
 end
 
 function GameOverState:update(dt)
+
+    Timer.update(dt)
 
     -- toggle highlighted option if we press an arrow key up or down
     if love.keyboard.wasPressed('left') or love.keyboard.wasPressed('right') then
@@ -21,26 +34,40 @@ function GameOverState:update(dt)
 
         if highlighted == 1 then
             gSounds['click']:play()
-            gStateMachine:change('start', {
+            Timer.tween(0.5, {
+                [self] = {transitionAlphas = 255}
+            }):finish(function()
+            gStateMachine:change('begin', {
+                difficulty = self.difficulty,
+                speed = self.speed
             })
+            end)
         else
             gSounds['click']:play()
-            gStateMachine:change('begin', {
-            })
+            Timer.tween(0.5, {
+                [self] = {transitionAlphas = 255}
+            }):finish(function()
+            gStateMachine:change('start')
+            end)
         end
     end
 
     -- we no longer have this globally, so include here
     if love.keyboard.wasPressed('escape') then
         gSounds['click']:play()
-        gStateMachine:change('start', {
-        })
+        Timer.tween(0.5, {
+            [self] = {transitionAlphas = 255}
+        }):finish(function()
+        gStateMachine:change('start')
+        end)
     end
 end
 
 
 function GameOverState:render()
     
+    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT) 
     
     love.graphics.setColor(100, 0, 0, 255)
     love.graphics.setFont(gFonts['medium'])
@@ -62,7 +89,7 @@ function GameOverState:render()
         if highlighted == 1 then
             love.graphics.setColor(255, 255, 255, 255)
         end
-        love.graphics.printf("No", 0, VIRTUAL_HEIGHT / 2 + 60,
+        love.graphics.printf("Yes", 0, VIRTUAL_HEIGHT / 2 + 60,
             VIRTUAL_WIDTH / 2 + 100, 'center')
     
         -- reset the color
@@ -72,10 +99,15 @@ function GameOverState:render()
         if highlighted == 2 then
             love.graphics.setColor(255, 255, 255, 255)
         end
-        love.graphics.printf("Yes", 0, VIRTUAL_HEIGHT / 2 + 60,
+        love.graphics.printf("No", 0, VIRTUAL_HEIGHT / 2 + 60,
             VIRTUAL_WIDTH / 2 + 400, 'center')
-    
+
         -- reset the color
-        love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(255, 255, 255, 255)
+
+    love.graphics.setColor(0, 0, 0, self.transitionAlpha)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    love.graphics.setColor(0, 0, 0, self.transitionAlphas)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)        
 
 end

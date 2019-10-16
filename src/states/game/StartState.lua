@@ -2,16 +2,40 @@ StartState = Class{__includes = BaseState}
 local highlighted = 1
 
 function StartState:init()
+    self.transitionAlpha = 255
+    self.transitionAlphas = 0
 
+    self.count = 30
+    self.timer = 0
 end
 
 
 
 function StartState:enter(params)
-
+    Timer.tween(0.5, {
+        [self] = {transitionAlpha = 0}
+    })
+    :finish(function()
+    end)
 end
 
 function StartState:update(dt)
+    Timer.update(dt)
+
+    self.timer = self.timer + dt
+
+    if self.timer > COUNTDOWN_TIME then
+        self.timer = self.timer % COUNTDOWN_TIME
+        self.count = self.count - 1
+
+        if self.count == 0 then
+            Timer.tween(1.5, {
+                [self] = {transitionAlphas = 255}
+            }):finish(function()
+            gStateMachine:change('story')
+            end)
+        end
+    end
     -- toggle highlighted option if we press an arrow key up or down
     if love.keyboard.wasPressed('up') or love.keyboard.wasPressed('down') then
         highlighted = highlighted == 1 and 2 or 1
@@ -23,12 +47,18 @@ function StartState:update(dt)
 
         if highlighted == 1 then
             gSounds['click']:play()
-            gStateMachine:change('begin', {
-            })
+            Timer.tween(0.5, {
+                [self] = {transitionAlphas = 255}
+            }):finish(function()
+            gStateMachine:change('difficulty')
+            end)
         else
             gSounds['click']:play()
-            gStateMachine:change('highscore', {
-            })
+            Timer.tween(0.5, {
+                [self] = {transitionAlphas = 255}
+            }):finish(function()
+            gStateMachine:change('highscore')
+            end)
         end
     end
 
@@ -69,7 +99,11 @@ function StartState:render()
     end
     love.graphics.printf("High Scores", 0, VIRTUAL_HEIGHT / 2 + 90,
         VIRTUAL_WIDTH, 'center')
-
+    love.graphics.setColor(0, 0, 0, self.transitionAlpha)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    love.graphics.setColor(0, 0, 0, self.transitionAlphas)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    
     -- reset the color
     love.graphics.setColor(175, 0, 0, 255)
 end

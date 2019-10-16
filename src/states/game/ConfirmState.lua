@@ -1,21 +1,18 @@
-QuitState = Class{__includes = BaseState}
+ConfirmState = Class{__includes = BaseState}
 
-function QuitState:init()
-    self.transitionAlpha = 255
+function ConfirmState:init()
     self.transitionAlphas = 0
 
     highlighted = 1
 end
 
-function QuitState:enter(params)
-    Timer.tween(0.5, {
-        [self] = {transitionAlpha = 0}
-    })
-    :finish(function()
-    end)
+function ConfirmState:enter(params, difficulty, speed)
+    self.difficulty = params.difficulty
+    self.speed = params.speed
+    
 end
 
-function QuitState:update(dt)
+function ConfirmState:update(dt)
     Timer.update(dt)
     -- toggle highlighted option if we press an arrow key up or down
     if love.keyboard.wasPressed('left') or love.keyboard.wasPressed('right') then
@@ -31,28 +28,36 @@ function QuitState:update(dt)
             Timer.tween(0.5, {
                 [self] = {transitionAlphas = 255}
             }):finish(function()
-            gStateMachine:change('start')
+            gStateMachine:change('begin',{
+                difficulty = self.difficulty,
+                speed = self.speed
+            })
             end)
         else
-            gSounds['click']:play()
-            love.event.quit()
+            Timer.tween(0.5, {
+                [self] = {transitionAlphas = 255}
+            }):finish(function()
+            gStateMachine:change('difficulty')
+            end)
         end
     end
 
     -- we no longer have this globally, so include here
     if love.keyboard.wasPressed('escape') then
-        love.event.quit()
+        gSounds['click']:play()
+        gStateMachine:change('difficulty')
     end
 end
 
 
-function QuitState:render()
+function ConfirmState:render()
     
-    
+    love.graphics.setFont(gFonts['medium'])
+
     love.graphics.setColor(100, 0, 0, 255)
-    love.graphics.printf('Are you sure you want to quit?', 0, 126, WINDOW_WIDTH / 2 - 126 , 'center')
+    love.graphics.printf('Confirm', 0, 74, WINDOW_WIDTH / 2 - 126 , 'center')
     love.graphics.setColor(255, 255, 255, 255)
-    love.graphics.printf('Are you sure you want to quit?', 0, 125, WINDOW_WIDTH / 2 - 130 , 'center')
+    love.graphics.printf('Confirm', 0, 70, WINDOW_WIDTH / 2 - 130 , 'center')
     love.graphics.setColor(175, 0, 0, 255)
         -- instructions
         love.graphics.setFont(gFonts['small'])
@@ -61,7 +66,7 @@ function QuitState:render()
         if highlighted == 1 then
             love.graphics.setColor(255, 255, 255, 255)
         end
-        love.graphics.printf("No", 0, VIRTUAL_HEIGHT / 2 + 60,
+        love.graphics.printf("Yes", 0, VIRTUAL_HEIGHT / 2 + 30,
             VIRTUAL_WIDTH / 2 + 100, 'center')
     
         -- reset the color
@@ -71,11 +76,9 @@ function QuitState:render()
         if highlighted == 2 then
             love.graphics.setColor(255, 255, 255, 255)
         end
-        love.graphics.printf("Yes", 0, VIRTUAL_HEIGHT / 2 + 60,
+        love.graphics.printf("No", 0, VIRTUAL_HEIGHT / 2 + 30,
             VIRTUAL_WIDTH / 2 + 400, 'center')
 
-        love.graphics.setColor(0, 0, 0, self.transitionAlpha)
-        love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
         love.graphics.setColor(0, 0, 0, self.transitionAlphas)
         love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     

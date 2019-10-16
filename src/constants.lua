@@ -27,9 +27,13 @@ function chooseWord()
     fullString = words[math.random(#words)]
     
 end
+near = true
 
 cursor = false
 
-score = 0
+tips = false
+
+letters = 0
 
 attacks = false
+
