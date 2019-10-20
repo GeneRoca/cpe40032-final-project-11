@@ -1,13 +1,17 @@
 FireWaveState = Class{__includes = BaseState}
 
 function FireWaveState:init(fireHero, monster, attack)
+
     self.fireHero = fireHero
     self.monster = monster
     self.attack = attack
     self.animation = Animation {
-        frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18},
+
+        frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 17, 17, 17, 17, 17, 17, 17, 17,  17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17},
         interval = 0.1
+
     }
+
     self.attack.currentAnimation = self.animation
 
     self.count = 2
@@ -15,7 +19,14 @@ function FireWaveState:init(fireHero, monster, attack)
 
 end
 
+function FireWaveState:enter()
+
+    gSounds['fireBall']:play()
+
+end
+
 function FireWaveState:update(dt)
+    
     self.attack.currentAnimation:update(dt)
 
     -- TO PLAY THE ANIMATION ONCE
@@ -27,6 +38,9 @@ function FireWaveState:update(dt)
 
         if self.count == 0 then
             self.attack:changeState('noAttack')
+
         end
+
     end
+    
 end
