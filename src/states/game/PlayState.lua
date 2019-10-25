@@ -187,8 +187,10 @@ function PlayState:render()
     self.attack:render()
 
     love.graphics.setFont(gFonts['xs'])
-    love.graphics.printf('Type quickly! Push the monster as long as you can!', 0, 15, WINDOW_WIDTH / 2 - 130 , 'center')
+    love.graphics.printf('Type quickly! Push the monster as long as you can!', 0, 15, WINDOW_WIDTH / 2 - 130, 'center')
 
+    love.graphics.draw(gTextures['timer'], 440, -20)    
+    love.graphics.draw(gTextures['frame3'], 80, 205)
     -- DRAW GOAL WORD
     love.graphics.setFont(gFonts['small'])
    

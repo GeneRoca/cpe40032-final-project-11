@@ -23,7 +23,7 @@ function HighScoreState:update(dt)
 
     Timer.update(dt)
 
-    if love.keyboard.wasPressed('escape') then
+    if love.keyboard.wasPressed('escape') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
 
         Timer.tween(0.5, {
             [self] = {transitionAlphas = 255}
@@ -66,7 +66,7 @@ function HighScoreState:render()
             35 + i * 20, 100, 'right')
     end
 
-    love.graphics.printf("Press Escape to return to the main menu!", 0, VIRTUAL_HEIGHT - 25, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf("Press Escape or Enter to return to the main menu!", 0, VIRTUAL_HEIGHT - 25, VIRTUAL_WIDTH, 'center')
 
     -- TRANSITIONING
     love.graphics.setColor(0, 0, 0, self.transitionAlpha)

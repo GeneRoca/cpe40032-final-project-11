@@ -120,7 +120,7 @@ function EnterHighScoreState:render()
 
     love.graphics.printf('You did great!', 0, 15, VIRTUAL_WIDTH, 'center')
     love.graphics.setFont(gFonts['small'])
-    love.graphics.printf('Your score: ' .. tostring(self.score), 0, 35, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('New High Score: ' .. tostring(self.score), 0, 35, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(gFonts['small'])
 

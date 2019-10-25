@@ -3,7 +3,7 @@ require 'src/Dependencies'
 function love.load()
 
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    love.window.setTitle('Typing Game')
+    love.window.setTitle('Amenidelle')
 
     math.randomseed(os.time())
   

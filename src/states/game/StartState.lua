@@ -142,9 +142,9 @@ function StartState:render()
     love.graphics.setFont(gFonts['medium'])
     
     love.graphics.setColor(100, 0, 0, 255)
-    love.graphics.printf("Typing Game", 0, 50, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf("Amenidelle", 0, 55, VIRTUAL_WIDTH, 'center')
     love.graphics.setColor(255, 255, 255, 255)
-    love.graphics.printf("Typing Game", 0, 50, VIRTUAL_WIDTH-5, 'center')
+    love.graphics.printf("Amenidelle", 0, 54, VIRTUAL_WIDTH-5, 'center')
     love.graphics.setColor(175, 0, 0, 255)
 
     love.graphics.setFont(gFonts['small'])

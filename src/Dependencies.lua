@@ -71,8 +71,11 @@ gTextures = {
     ['background'] = love.graphics.newImage('graphics/background.jpeg'),
     ['frame'] = love.graphics.newImage('graphics/frame.png'),
     ['frame2'] = love.graphics.newImage('graphics/frame2.png'),
+    ['frame3'] = love.graphics.newImage('graphics/frame3.png'),
     ['eye-monster'] = love.graphics.newImage('graphics/eye-monster.png'),
-    ['fire_wave'] = love.graphics.newImage('graphics/fire_wave.png')
+    ['fire_wave'] = love.graphics.newImage('graphics/fire_wave.png'),
+    ['timer'] = love.graphics.newImage('graphics/timer.png')
+    
 
 }
 
